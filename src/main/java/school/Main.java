@@ -61,6 +61,7 @@ public class Main {
 
                 switch (choice) {
 
+
                     case "1" -> {
 
                         System.out.print("Student ID: ");
@@ -69,17 +70,35 @@ public class Main {
                         System.out.print("Student name: ");
                         String name = scanner.nextLine();
 
-                        System.out.print("Grade level: ");
-                        String level = scanner.nextLine();
+                        int level;
 
-                        Student student =
-                                school.createStudent(id, name, level);
+                        while (true) {
+                            System.out.print("Grade level (1-11): ");
+                            String input = scanner.nextLine().trim();
+
+                            try {
+                                level = Integer.parseInt(input);
+
+                                if (level >= 1 && level <= 11) {
+                                    break;
+                                }
+
+                            } catch (NumberFormatException e) {
+                                // Invalid input
+                            }
+
+                            System.out.println(
+                                    "Invalid grade level! Enter a number from 1 to 11."
+                            );
+                        }
+
+                        Student student = school.createStudent(id, name, String.valueOf(level));
 
                         System.out.println(
-                                "Student created: " +
-                                        student.getName()
+                                "Student created: " + student.getName()
                         );
                     }
+
 
                     case "2" -> {
 
@@ -89,11 +108,19 @@ public class Main {
                         System.out.print("Staff name: ");
                         String name = scanner.nextLine();
 
-                        System.out.print(
-                                "Position (Teacher/Administrator): "
-                        );
+                        String position;
 
-                        String position = scanner.nextLine();
+                        while (true) {
+                            System.out.print("Position (Teacher/Administrator): ");
+                            position = scanner.nextLine().trim();
+
+                            if (position.equalsIgnoreCase("Teacher") ||
+                                    position.equalsIgnoreCase("Administrator")) {
+                                break;
+                            }
+
+                            System.out.println("Invalid position! Enter Teacher or Administrator.");
+                        }
 
                         Staff staff =
                                 school.createStaff(id, name, position);
